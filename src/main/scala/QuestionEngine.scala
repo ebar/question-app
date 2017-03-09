@@ -2,8 +2,6 @@
 class QuestionEngine(cli: CommandLineInterface) {
 
   def serve(q: Question) : Unit = {
-
-    def serveInternal(q: Question) : Option[Question] = {
       val next = q match {
         case ConditionalQuestion(message, nextQuestions) =>
           val answer = cli.showQuestion(message)
@@ -18,11 +16,9 @@ class QuestionEngine(cli: CommandLineInterface) {
       }
 
       next match {
-        case Some(nextQuestion) => serveInternal(nextQuestion)
+        case Some(nextQuestion) => serve(nextQuestion)
         case None => None
       }
-    }
-    serveInternal(q)
   }
 
 
