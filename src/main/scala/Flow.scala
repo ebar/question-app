@@ -1,6 +1,12 @@
-sealed trait Question
-case class ConditionalQuestion(message: String, nextQuestions: List[Conditional]) extends Question
-case class DefaultQuestion(message: String, nextQuestion: Option[Question]) extends Question
+abstract class FlowComponent(val id : Int)
 
-case class Conditional(condition: IntegerCondition, nextQuestion: Question)
+case class Block(override val id: Int, question: String, answerType: AnswerType.Value, nextId: Option[Int])
+  extends FlowComponent(id)
+
+case class Decision(override val id: Int, conditions: List[Conditional])
+  extends FlowComponent(id)
+
+case class Conditional(condition: IntegerCondition, nextId: Int)
+
 case class IntegerCondition(c: Int => Boolean)
+

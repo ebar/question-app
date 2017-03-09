@@ -1,8 +1,8 @@
 
 object Main extends App {
 
-  val questionGraph = QuestionGraphLoader.loadQuestionGraph()
-  new QuestionEngine(new CommandLineInterface).run(questionGraph)
+  val flow = FlowCreator.buildFlow()
+  new FlowEngine(new CommandLineInterface, flow).run
 
 }
 
