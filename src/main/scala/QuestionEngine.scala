@@ -10,6 +10,7 @@ class QuestionEngine(cli: CommandLineInterface) {
               case IntegerCondition(cond) => (cond(answer.toInt), nq.nextQuestion)
             }
           }.filter(_._1).map(_._2).headOption
+
         case DefaultQuestion(message, nextQuestion) =>
           val answer = cli.showQuestion(message)
           nextQuestion
@@ -24,8 +25,7 @@ class QuestionEngine(cli: CommandLineInterface) {
 
 
   def run(questionGraph: QuestionGraph) = {
-    val q = questionGraph.firstQuestion
-    serve(q)
+    serve(questionGraph.firstQuestion)
     println("Thankyou.")
   }
 

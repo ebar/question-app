@@ -1,0 +1,42 @@
+[
+  {
+    "questionId" : 1,
+    "message": "What's your name?",
+    "type" : "Default",
+    "answerType" : "FreeText",
+    "nextQuestion": 2
+  },
+  {
+    "questionId" : 2,
+    "message": "How old are you?",
+    "type" : "Conditional",
+    "answerType" : "FreeText",
+    "nextQuestions": [
+      {
+        "condition" : "<18",
+        "questionId" : 4
+      },
+      {
+        "condition" : ">=18",
+        "questionId" : 3
+      }
+    ]
+  },
+  {
+    "questionId" : 3,
+    "message": "Do you have a driving license?",
+    "type" : "Default",
+    "answerType" : "FreeText",
+    "nextQuestion": 2
+
+  },
+  {
+    "questionId" : 4,
+    "message": "Enter your pet name please",
+    "type" : "Default",
+    "answerType" : "FreeText",
+    "nextQuestion": 2
+
+  }
+]
+
