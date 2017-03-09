@@ -1,36 +1,36 @@
-import scala.io.StdIn
 
-object QuestionEngine {
+class QuestionEngine(cli: CommandLineInterface) {
 
-  def serve(q: Question) : Option[Question] = {
+  def serve(q: Question) : Unit = {
 
     def serveInternal(q: Question) : Option[Question] = {
-      q match {
+      val next = q match {
         case ConditionalQuestion(message, nextQuestions) =>
-          val answer = showQuestion(message)
-          nextQuestions.filter(_.condition(answer)).map(_.nextQuestion).headOption
+          val answer = cli.showQuestion(message)
+          nextQuestions.map { nq =>
+            nq.condition match {
+              case IntegerCondition(cond) => (cond(answer.toInt), nq.nextQuestion)
+            }
+          }.filter(_._1).map(_._2).headOption
         case DefaultQuestion(message, nextQuestion) =>
-          val answer = showQuestion(message)
+          val answer = cli.showQuestion(message)
           nextQuestion
       }
-    }
 
-      serveInternal(q) match {
-      case Some(nextQuestion) => serveInternal(nextQuestion)
-      case None => None
+      next match {
+        case Some(nextQuestion) => serveInternal(nextQuestion)
+        case None => None
+      }
     }
+    serveInternal(q)
   }
 
-  def showQuestion(message: String): String = {
-    println(message)
-    val answer = StdIn.readLine().toString
-    println(s"your answer: $answer")
-    answer
-  }
+
 
   def run(questionGraph: QuestionGraph) = {
     val q = questionGraph.firstQuestion
     serve(q)
+    println("Thankyou.")
   }
 
 }

@@ -1,12 +1,15 @@
 object QuestionGraphLoader {
 
-  def trueCondition(input: String) = {
-    true
-  }
+  def over18Condition(input: Int) = input > 18
+
+  def under18Condition(input: Int) = input <= 18
 
   def loadQuestionGraph() : QuestionGraph = {
-    new QuestionGraph(ConditionalQuestion("dummy question",
-      List(Condition(trueCondition, DefaultQuestion("dummy next question", Some(DefaultQuestion("blah bnlah", None)))))))
+
+    new QuestionGraph(
+      DefaultQuestion("What is your name?", Some(ConditionalQuestion("How old are you?",
+      List(Conditional(IntegerCondition(over18Condition), DefaultQuestion("Do you have a driving license?", None)),
+        Conditional(IntegerCondition(under18Condition), DefaultQuestion("Enter your pet name please", None)))))))
 
   }
 
